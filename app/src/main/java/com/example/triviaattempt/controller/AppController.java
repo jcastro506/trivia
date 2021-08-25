@@ -17,10 +17,12 @@ public class AppController extends Application {
     private static AppController instance;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
-    private static Context ctx;
 
-    private AppController(Context context) {
-        ctx = context;
+    public AppController() {
+    }
+
+    private AppController (Context context) {
+
         requestQueue = getRequestQueue();
 
         imageLoader = new ImageLoader(requestQueue,
@@ -40,9 +42,9 @@ public class AppController extends Application {
                 });
     }
 
-    public static synchronized AppController getInstance(Context context) {
+    public static synchronized AppController getInstance() {
         if (instance == null) {
-            instance = new AppController(context);
+            instance = new AppController();
         }
         return instance;
     }
@@ -51,7 +53,7 @@ public class AppController extends Application {
         if (requestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
-            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
         }
         return requestQueue;
     }
